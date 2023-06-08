@@ -1,0 +1,63 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+
+#output directories:
+
+
+build/**
+debug/**
+Debug
+release/**
+Release
+mingw/**
+
+gcc_release/**
+gcc_real/**
+gcc_debug/**
+gcc_relwithdebinfo/**
+
+clang_release/**
+clang_real/**
+clang_debug/**
+clang_relwithdebinfo/**
+
+# ide directories:
+.ccls-cache
+.DS_Store
+compile_commands.json
+.vscode
+.devcontainer
+.clangd
+.cache

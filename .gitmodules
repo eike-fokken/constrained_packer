@@ -1,0 +1,3 @@
+[submodule "consumecasadi"]
+	path = consumecasadi
+	url = git@github.com:eike-fokken/consumecasadi.git
