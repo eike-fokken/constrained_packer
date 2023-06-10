@@ -1,36 +1,31 @@
 
-#include <casadi/core/function.hpp>
-#include <casadi/core/mx.hpp>
-#include <casadi/core/nlpsol.hpp>
-#include <casadi/core/serializing_stream.hpp>
-#include <casadi/core/sparsity_interface.hpp>
-#include <iostream>
 #include <casadi/casadi.hpp>
+#include <iostream>
 #include <vector>
 
+int main() {
 
-int main(){
-
-
-  auto x = casadi::MX::sym("x",1);
+  auto x = casadi::MX::sym("x", 1);
   auto y = casadi::MX::sym("y", 1);
-  auto z = casadi::MX::vertcat(std::vector<casadi::MX>{x,y});
+  auto z = casadi::MX::vertcat({x, y});
 
-  auto f = 2*x+3*y;
+  auto f = 2 * x + 3 * y;
 
-  auto g = vertcat(std::vector<casadi::MX>{x+y,x,y});
+  auto g = casadi::MX::vertcat({x + y, x, y});
 
-  casadi::MXDict nlp = {{"x", z}, {"f", f}, {"g", g}};
-  
-  auto solver = casadi::nlpsol("solver","highs",nlp);
+  casadi::MXDict lp = {{"x", z}, {"f", f}, {"g", g}};
 
-
+  auto solver = casadi::qpsol("solver", "highs", lp);
 
   // Bounds on g
-  std::vector<double> gmin = {0, -1,-1};
-  std::vector<double> gmax = {5, 1,1};
+  std::vector<double> gmin = {0, -1, -1};
+  std::vector<double> gmax = {5, 1, 1};
   // Solve the problem
-  casadi::DMDict arg = {
-      {"lbx", -10}, {"ubx", 10}, {"x0", 0.4}, {"lbg", gmin}, {"ubg", gmax}};
-  auto res = solver(arg);
-  }
+  casadi::DMDict solver_arguments
+      = {{"lbx", -10}, {"ubx", 10}, {"x0", 0.4}, {"lbg", gmin}, {"ubg", gmax}};
+  auto res = solver(solver_arguments);
+
+  std::cout << "x: " << res["x"] << std::endl;
+  std::cout << "f: " << res["f"] << std::endl;
+  std::cout << "g: " << res["g"] << std::endl;
+}
