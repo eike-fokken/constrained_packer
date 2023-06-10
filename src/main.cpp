@@ -9,17 +9,23 @@ int main() {
   auto y = casadi::MX::sym("y", 1);
   auto z = casadi::MX::vertcat({x, y});
 
-  auto f = 2 * x + 3 * y;
+  auto f = -(2 * x + 3 * y);
 
   auto g = casadi::MX::vertcat({x + y, x, y});
 
   casadi::MXDict lp = {{"x", z}, {"f", f}, {"g", g}};
 
-  auto solver = casadi::qpsol("solver", "highs", lp);
+  casadi::Dict options;
+
+  std::vector<bool> discrete = {true, true};
+  // std::vector<bool> discrete = {};
+  options["discrete"] = discrete;
+
+  auto solver = casadi::qpsol("solver", "highs", lp, options);
 
   // Bounds on g
-  std::vector<double> gmin = {0, -1, -1};
-  std::vector<double> gmax = {5, 1, 1};
+  std::vector<double> gmin = {0, -4.5, -4.5};
+  std::vector<double> gmax = {5, 4.5, 4.5};
   // Solve the problem
   casadi::DMDict solver_arguments
       = {{"lbx", -10}, {"ubx", 10}, {"x0", 0.4}, {"lbg", gmin}, {"ubg", gmax}};
